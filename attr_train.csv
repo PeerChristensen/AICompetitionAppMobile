@@ -1,4 +1,4 @@
-Age,Attrition,BusinessTravel,Department,DistanceFromHome,EducationField,Gender,JobRole,PerformanceRating,YearsAtCompany,YearsInCurrentRole,MonthlyIncome
+Alder,Attrition,Forretningsrejser,Afdeling,AfstandTilArbejdet,UddannelsesFelt,MandEllerKvinde,JobRolle,PerformanceRating,TidHosVirksomhed,TidIStilling,Gage
 49,No,Travel_Frequently,Research & Development,8,Life Sciences,Male,Research Scientist,4,10,7,5130
 27,No,Travel_Rarely,Research & Development,2,Medical,Male,Laboratory Technician,3,2,2,3468
 59,No,Travel_Rarely,Research & Development,3,Medical,Female,Laboratory Technician,4,1,0,2670

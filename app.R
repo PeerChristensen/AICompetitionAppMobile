@@ -80,33 +80,33 @@ black_style <- "
 padding:1em;
 background-color:
 black;color:white;
-font-family: 'Open Sans';
 font-size: 18px !important;
 line-height: 1.5;
 "
+
+# font-family: 'Ubuntu' !important;
 
 black_style_header <- "
 padding:0em;
 background-color:black;
 color:white;
-font-family: 'Ubuntu' !important;
 font-weight:300 !important;
 font-size: 50px !important;
 padding-top: 1em;
 "
 
 black_style_title <- "
-font-family: 'Ubuntu' !important;
 font-weight:300 !important;
 padding-left: 25px;
 "
+
+# font-family: 'Open Sans' !important;
 
 white_style <- "
 margin:0em;
 padding:2em;
 background-color:white;
 color:black;
-font-family: 'Open Sans' !important;
 font-size: 18px !important;
 line-height: 1.5;
 padding-bottom: 0em !important;
@@ -116,7 +116,6 @@ white_style_header <- "
 margin:0em;
 background-color:white;
 color:black;
-font-family: 'Ubuntu' !important;
 font-weight: 300 !important;
 font-size: 32px !important;
 padding-top: 1em;
@@ -129,7 +128,6 @@ margin:0em;
 padding:1em;
 background-color:white;
 color:black;
-font-family: 'Ubuntu' !important;
 font-weight:300 !important;
 font-size: 32px !important;
 padding-top: 1em;
@@ -140,7 +138,6 @@ margin-bottom:20px;
 background-color:white;
 padding-left:10px;
 color:black;
-font-family: 'Open Sans' !important;
 font-size: 20px !important;
 line-height: 1.5;
 
@@ -150,7 +147,6 @@ button_style <- "
 background-color: #85c8f0; 
 border-color: #85c8f0; 
 border-radius: 12px;
-font-family: 'Open Sans';
 font-size: 18px !important;
 "
 
