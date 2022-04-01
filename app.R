@@ -391,7 +391,7 @@ server <- function(input, output, session) {
 		score      <- acc
 		permission_mail <- input$confirm_mail_list
 		permission <- input$confirm
-		time       <- now()
+		time       <- now(tzone = "Europe/Copenhagen")
 		
 		data <-
 			tibble(name,
