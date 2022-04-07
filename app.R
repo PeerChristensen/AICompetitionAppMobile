@@ -1,3 +1,13 @@
+###################################################
+# KAPACITY AI COMPETITION
+# Mobile version
+
+# April 2022
+# Peer Christensen
+###################################################
+
+
+# shiny packages
 library(shiny)
 library(shinyWidgets)
 library(flexdashboard)
@@ -5,26 +15,32 @@ library(bslib)
 library(shinyBS)
 library(shinyjs)
 library(shinydashboard)
+library(shinyvalidate)
+
+# R/tidyverse and ML
 library(tidyverse)
 library(lubridate)
 library(randomForest)
 library(mlr)
-library(shinyvalidate)
+
+# Azure storage
 library(AzureStor)
 
+# --- CONNECTING TO BLOB STORAGE ---------------------------------
 
-# CONNECTING TO BLOB STORAGE
 readRenviron(".Renviron")
 sas_token <- Sys.getenv("SAS_TOKEN")
-endpoint <-
-	storage_endpoint("https://demoeventstorage.blob.core.windows.net", sas =
-									 	sas_token)
+endpoint  <-
+	storage_endpoint("https://demoeventstorage.blob.core.windows.net",
+									 sas = sas_token)
 container <- storage_container(endpoint, "aicompetition")
 
-### STYLING ###
+# --- STYLING -----------------------------------------------------
+
+### colours
 gold  <- "#c39f5e"
+#light_gold <- "#f9f5ef"
 blue  <- "#85c8f0"
-padding_sides <- "padding"
 
 theme <- bs_theme(
 	#bg = "white",
@@ -35,13 +51,21 @@ theme <- bs_theme(
 	#heading_font = font_google("Ubuntu"),
 )
 
+### CSS
 
-# colouring remaining gauge bavkground
+# This could be placed in a separate file
+# There's a lot of repetition here,
+# which can be avoided by using inheritance among elements
+# The commented lines with font-family are currently ignored,
+# because some desktop and mobile systems seem to override these fonts
+# in favour of Times New Roman. However, the Shiny default (used here) works fine.
+
+
+# colouring remaining gauge background
 # this currently colours the entire area
-
 #.html-widget.gauge svg path {
-#fill:#c39f5e;
-#  fill: #f9f5ef}
+# fill:#c39f5e;
+# fill: #f9f5ef}
 
 css <- HTML(
 	"
@@ -83,7 +107,6 @@ black;color:white;
 font-size: 18px !important;
 line-height: 1.5;
 "
-
 # font-family: 'Ubuntu' !important;
 
 black_style_header <- "
@@ -94,12 +117,12 @@ font-weight:300 !important;
 font-size: 50px !important;
 padding-top: 1em;
 "
+# font-family: 'Ubuntu' !important;
 
 black_style_title <- "
 font-weight:300 !important;
 padding-left: 25px;
 "
-
 # font-family: 'Open Sans' !important;
 
 white_style <- "
@@ -111,6 +134,7 @@ font-size: 18px !important;
 line-height: 1.5;
 padding-bottom: 0em !important;
 "
+# font-family: 'Open Sans' !important;
 
 white_style_header <- "
 margin:0em;
@@ -122,6 +146,8 @@ padding-top: 1em;
 padding-bottom: 0em;
 text-align:center;
 "
+# font-family: 'Open Sans' !important;
+
 
 white_style_header2 <- "
 margin:0em;
@@ -132,6 +158,8 @@ font-weight:300 !important;
 font-size: 32px !important;
 padding-top: 1em;
 "
+# font-family: 'Ubuntu' !important;
+
 rendered_text <- "
 padding-top:-15px;
 margin-bottom:20px;
@@ -142,6 +170,8 @@ font-size: 20px !important;
 line-height: 1.5;
 
 "
+# font-family: 'Open Sans' !important;
+
 
 button_style <- "
 background-color: #85c8f0; 
@@ -149,16 +179,21 @@ border-color: #85c8f0;
 border-radius: 12px;
 font-size: 18px !important;
 "
+# font-family: 'Open Sans' !important;
 
 
-### DATA ###
+# --- DATA -----------------------------------------------------
+
 vars  <- read_rds("vars_attr.rds")
 train <- read.csv("attr_train.csv") %>%
 	mutate_if(is.character, factor)
 test  <- read.csv("attr_test.csv") %>%
 	mutate_if(is.character, factor)
 
-### UI ###
+
+
+# --- UI -------------------------------------------------------
+
 ui <- fluidPage(
 	theme = theme,
 	useShinyjs(),
@@ -180,11 +215,13 @@ ui <- fluidPage(
 					 p("Kan du træne vores AI-model, så du stopper medarbejderflugten i din virksomhed?")
 		)
 	),
-	fluidRow(
-		column(12, align="center", style = black_style,
-					 p("Vi belønner dagens bedste forsøg med en champagne-smagekasse til en værdi af kr. 2.899,-")
-		)
-	),
+	
+	# SPECIFY PRIZE HERE
+	#fluidRow(
+	#	column(12, align="center", style = black_style,
+	#				 p("Vi belønner dagens bedste forsøg med en champagne-smagekasse til en værdi af kr. 2.899,-")
+	#	)
+	#),
 	
 	# INSTRUCTIONS
 	fluidRow(style="margin:0em:",
@@ -204,10 +241,12 @@ ui <- fluidPage(
 					 			 p(
 					 			 	"Du er velkommen til at prøve flere gange, men kun det bedste af dine tre første forsøg tæller med i konkurrencen."
 					 			 ),
-					 			 p("Konkurrencen slutter kl. 17:00, og vi kontakter vinderen umiddelbart efter."),
+					 			 # SPECIFY TIME WHEN COMPETITION ENDS
+					 			 #p("Konkurrencen slutter kl. 17:00, og vi kontakter vinderen umiddelbart efter."),
 					 			 p(
 					 			 	"Deltagelse forudsætter tilmelding til Kapacitys nyhedsmail om AI.",tags$br(),
-										"Kun deltagere i Kunstig Intelligens i praksis-konferencen kan deltage i konkurrencen."
+					 			 	# SPECIFY WHO MAY PARTICIPATE
+									#	"Kun deltagere i Kunstig Intelligens i praksis-konferencen kan deltage i konkurrencen."
 					 			 ),
 					 )
 	),
@@ -331,7 +370,8 @@ ui <- fluidPage(
 	fluidRow(h1(""))
 ) # page
 
-### SERVER ###
+
+# --- SERVER -------------------------------------------------------
 
 server <- function(input, output, session) {
 	# Validate input
